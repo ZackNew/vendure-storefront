@@ -906,6 +906,7 @@ export type CreatePromotionInput = {
 	perCustomerUsageLimit?: InputMaybe<Scalars['Int']['input']>;
 	startsAt?: InputMaybe<Scalars['DateTime']['input']>;
 	translations: Array<PromotionTranslationInput>;
+	usageLimit?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type CreatePromotionResult = MissingConditionsError | Promotion;
@@ -1634,7 +1635,13 @@ export type Facet = Node & {
 	name: Scalars['String']['output'];
 	translations: Array<FacetTranslation>;
 	updatedAt: Scalars['DateTime']['output'];
+	/** Returns a paginated, sortable, filterable list of the Facet's values. Added in v2.1.0. */
+	valueList: FacetValueList;
 	values: Array<FacetValue>;
+};
+
+export type FacetValueListArgs = {
+	options?: InputMaybe<FacetValueListOptions>;
 };
 
 export type FacetFilterParameter = {
@@ -1705,6 +1712,7 @@ export type FacetValue = Node & {
 	createdAt: Scalars['DateTime']['output'];
 	customFields?: Maybe<Scalars['JSON']['output']>;
 	facet: Facet;
+	facetId: Scalars['ID']['output'];
 	id: Scalars['ID']['output'];
 	languageCode: LanguageCode;
 	name: Scalars['String']['output'];
@@ -1728,6 +1736,7 @@ export type FacetValueFilterInput = {
 export type FacetValueFilterParameter = {
 	code?: InputMaybe<StringOperators>;
 	createdAt?: InputMaybe<DateOperators>;
+	facetId?: InputMaybe<IdOperators>;
 	id?: InputMaybe<IdOperators>;
 	languageCode?: InputMaybe<StringOperators>;
 	name?: InputMaybe<StringOperators>;
@@ -1766,6 +1775,7 @@ export type FacetValueResult = {
 export type FacetValueSortParameter = {
 	code?: InputMaybe<SortOrder>;
 	createdAt?: InputMaybe<SortOrder>;
+	facetId?: InputMaybe<SortOrder>;
 	id?: InputMaybe<SortOrder>;
 	name?: InputMaybe<SortOrder>;
 	updatedAt?: InputMaybe<SortOrder>;
@@ -2020,6 +2030,23 @@ export type InvalidFulfillmentHandlerError = ErrorResult & {
 	__typename?: 'InvalidFulfillmentHandlerError';
 	errorCode: ErrorCode;
 	message: Scalars['String']['output'];
+};
+
+export type InvoiceConfig = {
+	__typename?: 'InvoiceConfig';
+	enabled: Scalars['Boolean']['output'];
+	id: Scalars['ID']['output'];
+	templateString?: Maybe<Scalars['String']['output']>;
+};
+
+export type InvoiceConfigInput = {
+	enabled: Scalars['Boolean']['input'];
+	templateString?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type InvoicesListInput = {
+	itemsPerPage: Scalars['Int']['input'];
+	page: Scalars['Int']['input'];
 };
 
 /** Returned if the specified items are already part of a Fulfillment */
@@ -2911,6 +2938,7 @@ export type Mutation = {
 	updateTaxRate: TaxRate;
 	/** Update an existing Zone */
 	updateZone: Zone;
+	upsertInvoiceConfig: InvoiceConfig;
 };
 
 export type MutationAddCustomersToGroupArgs = {
@@ -3570,6 +3598,10 @@ export type MutationUpdateZoneArgs = {
 	input: UpdateZoneInput;
 };
 
+export type MutationUpsertInvoiceConfigArgs = {
+	input?: InputMaybe<InvoiceConfigInput>;
+};
+
 export type NativeAuthInput = {
 	password: Scalars['String']['input'];
 	username: Scalars['String']['input'];
@@ -3805,6 +3837,7 @@ export type OrderLine = Node & {
 	proratedUnitPrice: Scalars['Money']['output'];
 	/** The proratedUnitPrice including tax */
 	proratedUnitPriceWithTax: Scalars['Money']['output'];
+	/** The quantity of items purchased */
 	quantity: Scalars['Int']['output'];
 	taxLines: Array<TaxLine>;
 	taxRate: Scalars['Float']['output'];
@@ -4100,6 +4133,8 @@ export type PaymentStateTransitionError = ErrorResult & {
  * @docsCategory common
  */
 export const Permission = {
+	/** Allow this user to use picklists */
+	AllowPicklistPermission: 'AllowPicklistPermission',
 	/** Authenticated means simply that the user is logged in */
 	Authenticated: 'Authenticated',
 	/** Grants permission to create Administrator */
@@ -4547,7 +4582,7 @@ export type ProductVariantListOptions = {
 export type ProductVariantPrice = {
 	__typename?: 'ProductVariantPrice';
 	currencyCode: CurrencyCode;
-	price: Scalars['Int']['output'];
+	price: Scalars['Money']['output'];
 };
 
 /**
@@ -4607,6 +4642,7 @@ export type Promotion = Node & {
 	startsAt?: Maybe<Scalars['DateTime']['output']>;
 	translations: Array<PromotionTranslation>;
 	updatedAt: Scalars['DateTime']['output'];
+	usageLimit?: Maybe<Scalars['Int']['output']>;
 };
 
 export type PromotionFilterParameter = {
@@ -4620,6 +4656,7 @@ export type PromotionFilterParameter = {
 	perCustomerUsageLimit?: InputMaybe<NumberOperators>;
 	startsAt?: InputMaybe<DateOperators>;
 	updatedAt?: InputMaybe<DateOperators>;
+	usageLimit?: InputMaybe<NumberOperators>;
 };
 
 export type PromotionList = PaginatedList & {
@@ -4651,6 +4688,7 @@ export type PromotionSortParameter = {
 	perCustomerUsageLimit?: InputMaybe<SortOrder>;
 	startsAt?: InputMaybe<SortOrder>;
 	updatedAt?: InputMaybe<SortOrder>;
+	usageLimit?: InputMaybe<SortOrder>;
 };
 
 export type PromotionTranslation = {
@@ -4772,6 +4810,7 @@ export type Query = {
 	facets: FacetList;
 	fulfillmentHandlers: Array<ConfigurableOperationDefinition>;
 	globalSettings: GlobalSettings;
+	invoiceConfig?: Maybe<InvoiceConfig>;
 	job?: Maybe<Job>;
 	jobBufferSize: Array<JobBufferSize>;
 	jobQueues: Array<JobQueue>;
@@ -5303,6 +5342,7 @@ export type SearchInput = {
 	collectionSlug?: InputMaybe<Scalars['String']['input']>;
 	facetValueFilters?: InputMaybe<Array<FacetValueFilterInput>>;
 	groupByProduct?: InputMaybe<Scalars['Boolean']['input']>;
+	inStock?: InputMaybe<Scalars['Boolean']['input']>;
 	skip?: InputMaybe<Scalars['Int']['input']>;
 	sort?: InputMaybe<SearchResultSortParameter>;
 	take?: InputMaybe<Scalars['Int']['input']>;
@@ -5333,6 +5373,7 @@ export type SearchResult = {
 	enabled: Scalars['Boolean']['output'];
 	facetIds: Array<Scalars['ID']['output']>;
 	facetValueIds: Array<Scalars['ID']['output']>;
+	inStock: Scalars['Boolean']['output'];
 	price: SearchResultPrice;
 	priceWithTax: SearchResultPrice;
 	productAsset?: Maybe<SearchResultAsset>;
@@ -6153,6 +6194,7 @@ export type UpdatePromotionInput = {
 	perCustomerUsageLimit?: InputMaybe<Scalars['Int']['input']>;
 	startsAt?: InputMaybe<Scalars['DateTime']['input']>;
 	translations?: InputMaybe<Array<PromotionTranslationInput>>;
+	usageLimit?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type UpdatePromotionResult = MissingConditionsError | Promotion;
@@ -6486,12 +6528,12 @@ export const OrdersDocument = gql`
 	}
 	${OrderDetailFragmentDoc}
 `;
-export type Requester<C = {}, E = unknown> = <R, V>(
+export type Requester<C = {}> = <R, V>(
 	doc: DocumentNode,
 	vars?: V,
 	options?: C
 ) => Promise<R> | AsyncIterable<R>;
-export function getSdk<C, E>(requester: Requester<C, E>) {
+export function getSdk<C>(requester: Requester<C>) {
 	return {
 		orders(variables?: OrdersQueryVariables, options?: C): Promise<OrdersQuery> {
 			return requester<OrdersQuery, OrdersQueryVariables>(

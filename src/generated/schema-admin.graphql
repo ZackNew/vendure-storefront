@@ -1,5 +1,5 @@
 union AddFulfillmentToOrderResult =
-	  CreateFulfillmentError
+	| CreateFulfillmentError
 	| EmptyOrderLineSelectionError
 	| Fulfillment
 	| FulfillmentStateTransitionError
@@ -159,7 +159,7 @@ type AlreadyRefundedError implements ErrorResult {
 }
 
 union ApplyCouponCodeResult =
-	  CouponCodeExpiredError
+	| CouponCodeExpiredError
 	| CouponCodeInvalidError
 	| CouponCodeLimitError
 	| Order
@@ -363,7 +363,7 @@ input CancelOrderInput {
 }
 
 union CancelOrderResult =
-	  CancelActiveOrderError
+	| CancelActiveOrderError
 	| EmptyOrderLineSelectionError
 	| MultipleOrderError
 	| Order
@@ -939,6 +939,7 @@ input CreatePromotionInput {
 	perCustomerUsageLimit: Int
 	startsAt: DateTime
 	translations: [PromotionTranslationInput!]!
+	usageLimit: Int
 }
 
 union CreatePromotionResult = MissingConditionsError | Promotion
@@ -1822,7 +1823,7 @@ interface CustomField {
 }
 
 union CustomFieldConfig =
-	  BooleanCustomFieldConfig
+	| BooleanCustomFieldConfig
 	| DateTimeCustomFieldConfig
 	| FloatCustomFieldConfig
 	| IntCustomFieldConfig
@@ -2155,6 +2156,11 @@ type Facet implements Node {
 	name: String!
 	translations: [FacetTranslation!]!
 	updatedAt: DateTime!
+
+	"""
+	Returns a paginated, sortable, filterable list of the Facet's values. Added in v2.1.0.
+	"""
+	valueList(options: FacetValueListOptions): FacetValueList!
 	values: [FacetValue!]!
 }
 
@@ -2236,6 +2242,7 @@ type FacetValue implements Node {
 	createdAt: DateTime!
 	customFields: JSON
 	facet: Facet!
+	facetId: ID!
 	id: ID!
 	languageCode: LanguageCode!
 	name: String!
@@ -2259,6 +2266,7 @@ input FacetValueFilterInput {
 input FacetValueFilterParameter {
 	code: StringOperators
 	createdAt: DateOperators
+	facetId: IDOperators
 	id: IDOperators
 	languageCode: StringOperators
 	name: StringOperators
@@ -2309,6 +2317,7 @@ type FacetValueResult {
 input FacetValueSortParameter {
 	code: SortOrder
 	createdAt: SortOrder
+	facetId: SortOrder
 	id: SortOrder
 	name: SortOrder
 	updatedAt: SortOrder
@@ -2574,6 +2583,22 @@ Returned if the specified FulfillmentHandler code is not valid
 type InvalidFulfillmentHandlerError implements ErrorResult {
 	errorCode: ErrorCode!
 	message: String!
+}
+
+type InvoiceConfig {
+	enabled: Boolean!
+	id: ID!
+	templateString: String
+}
+
+input InvoiceConfigInput {
+	enabled: Boolean!
+	templateString: String
+}
+
+input InvoicesListInput {
+	itemsPerPage: Int!
+	page: Int!
 }
 
 """
@@ -3609,7 +3634,7 @@ input ModifyOrderOptions {
 }
 
 union ModifyOrderResult =
-	  CouponCodeExpiredError
+	| CouponCodeExpiredError
 	| CouponCodeInvalidError
 	| CouponCodeLimitError
 	| InsufficientStockError
@@ -4335,6 +4360,7 @@ type Mutation {
 	Update an existing Zone
 	"""
 	updateZone(input: UpdateZoneInput!): Zone!
+	upsertInvoiceConfig(input: InvoiceConfigInput): InvoiceConfig!
 }
 
 input NativeAuthInput {
@@ -4626,6 +4652,10 @@ type OrderLine implements Node {
 	The proratedUnitPrice including tax
 	"""
 	proratedUnitPriceWithTax: Money!
+
+	"""
+	The quantity of items purchased
+	"""
 	quantity: Int!
 	taxLines: [TaxLine!]!
 	taxRate: Float!
@@ -4965,6 +4995,11 @@ of the resource has access. If not, then it is the equivalent of using `Permissi
 @docsCategory common
 """
 enum Permission {
+	"""
+	Allow this user to use picklists
+	"""
+	AllowPicklistPermission
+
 	"""
 	Authenticated means simply that the user is logged in
 	"""
@@ -5702,7 +5737,7 @@ input ProductVariantListOptions {
 
 type ProductVariantPrice {
 	currencyCode: CurrencyCode!
-	price: Int!
+	price: Money!
 }
 
 """
@@ -5760,6 +5795,7 @@ type Promotion implements Node {
 	startsAt: DateTime
 	translations: [PromotionTranslation!]!
 	updatedAt: DateTime!
+	usageLimit: Int
 }
 
 input PromotionFilterParameter {
@@ -5773,6 +5809,7 @@ input PromotionFilterParameter {
 	perCustomerUsageLimit: NumberOperators
 	startsAt: DateOperators
 	updatedAt: DateOperators
+	usageLimit: NumberOperators
 }
 
 type PromotionList implements PaginatedList {
@@ -5817,6 +5854,7 @@ input PromotionSortParameter {
 	perCustomerUsageLimit: SortOrder
 	startsAt: SortOrder
 	updatedAt: SortOrder
+	usageLimit: SortOrder
 }
 
 type PromotionTranslation {
@@ -5960,6 +5998,7 @@ type Query {
 	facets(options: FacetListOptions): FacetList!
 	fulfillmentHandlers: [ConfigurableOperationDefinition!]!
 	globalSettings: GlobalSettings!
+	invoiceConfig: InvoiceConfig
 	job(jobId: ID!): Job
 	jobBufferSize(bufferIds: [String!]): [JobBufferSize!]!
 	jobQueues: [JobQueue!]!
@@ -6071,7 +6110,7 @@ input RefundOrderInput {
 }
 
 union RefundOrderResult =
-	  AlreadyRefundedError
+	| AlreadyRefundedError
 	| MultipleOrderError
 	| NothingToRefundError
 	| OrderStateTransitionError
@@ -6283,6 +6322,7 @@ input SearchInput {
 	collectionSlug: String
 	facetValueFilters: [FacetValueFilterInput!]
 	groupByProduct: Boolean
+	inStock: Boolean
 	skip: Int
 	sort: SearchResultSortParameter
 	take: Int
@@ -6315,6 +6355,7 @@ type SearchResult {
 	enabled: Boolean!
 	facetIds: [ID!]!
 	facetValueIds: [ID!]!
+	inStock: Boolean!
 	price: SearchResultPrice!
 	priceWithTax: SearchResultPrice!
 	productAsset: SearchResultAsset
@@ -6412,7 +6453,7 @@ type ServerConfig {
 union SetCustomerForDraftOrderResult = EmailAddressConflictError | Order
 
 union SetOrderShippingMethodResult =
-	  IneligibleShippingMethodError
+	| IneligibleShippingMethodError
 	| NoActiveOrderError
 	| Order
 	| OrderModificationError
@@ -6427,7 +6468,7 @@ type SettlePaymentError implements ErrorResult {
 }
 
 union SettlePaymentResult =
-	  OrderStateTransitionError
+	| OrderStateTransitionError
 	| Payment
 	| PaymentStateTransitionError
 	| SettlePaymentError
@@ -7119,7 +7160,7 @@ input UpdateOrderInput {
 }
 
 union UpdateOrderItemsResult =
-	  InsufficientStockError
+	| InsufficientStockError
 	| NegativeQuantityError
 	| Order
 	| OrderLimitError
@@ -7204,6 +7245,7 @@ input UpdatePromotionInput {
 	perCustomerUsageLimit: Int
 	startsAt: DateTime
 	translations: [PromotionTranslationInput!]
+	usageLimit: Int
 }
 
 union UpdatePromotionResult = MissingConditionsError | Promotion

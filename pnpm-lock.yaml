@@ -26,6 +26,9 @@ dependencies:
   qwik-image:
     specifier: ^0.0.8
     version: 0.0.8
+  sharp:
+    specifier: ^0.33.2
+    version: 0.33.2
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -305,7 +308,7 @@ packages:
       debug: 4.3.4
       gensync: 1.0.0-beta.2
       json5: 2.2.3
-      semver: 6.3.0
+      semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
 
@@ -381,7 +384,7 @@ packages:
       '@babel/helper-validator-option': 7.22.5
       browserslist: 4.21.10
       lru-cache: 5.1.1
-      semver: 6.3.0
+      semver: 6.3.1
 
   /@babel/helper-compilation-targets@7.23.6:
     resolution:
@@ -1346,7 +1349,6 @@ packages:
     requiresBuild: true
     dependencies:
       tslib: 2.6.2
-    dev: true
     optional: true
 
   /@esbuild-plugins/node-globals-polyfill@0.2.3(esbuild@0.17.19):
@@ -2330,7 +2332,7 @@ packages:
       '@graphql-tools/utils': 10.0.0(graphql@16.8.1)
       dataloader: 2.2.2
       graphql: 16.8.1
-      tslib: 2.5.0
+      tslib: 2.6.2
       value-or-promise: 1.0.12
     dev: true
 
@@ -2369,7 +2371,7 @@ packages:
       '@graphql-tools/utils': 10.0.0(graphql@16.8.1)
       dataloader: 2.2.2
       graphql: 16.8.1
-      tslib: 2.5.0
+      tslib: 2.6.2
       value-or-promise: 1.0.12
     dev: true
 
@@ -2402,7 +2404,7 @@ packages:
       graphql: 16.8.1
       graphql-ws: 5.13.1(graphql@16.8.1)
       isomorphic-ws: 5.0.0(ws@8.13.0)
-      tslib: 2.5.0
+      tslib: 2.6.2
       ws: 8.13.0
     transitivePeerDependencies:
       - bufferutil
@@ -2425,7 +2427,7 @@ packages:
       extract-files: 11.0.0
       graphql: 16.8.1
       meros: 1.2.1(@types/node@20.11.17)
-      tslib: 2.5.0
+      tslib: 2.6.2
       value-or-promise: 1.0.12
     transitivePeerDependencies:
       - '@types/node'
@@ -2444,7 +2446,7 @@ packages:
       '@types/ws': 8.5.4
       graphql: 16.8.1
       isomorphic-ws: 5.0.0(ws@8.13.0)
-      tslib: 2.5.0
+      tslib: 2.6.2
       ws: 8.13.0
     transitivePeerDependencies:
       - bufferutil
@@ -2464,7 +2466,7 @@ packages:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.1)
       '@repeaterjs/repeater': 3.0.4
       graphql: 16.8.1
-      tslib: 2.5.0
+      tslib: 2.6.2
       value-or-promise: 1.0.12
     dev: true
 
@@ -2806,7 +2808,7 @@ packages:
       '@graphql-tools/schema': 10.0.0(graphql@16.8.1)
       '@graphql-tools/utils': 10.0.0(graphql@16.8.1)
       graphql: 16.8.1
-      tslib: 2.5.0
+      tslib: 2.6.2
       value-or-promise: 1.0.12
     dev: true
 
@@ -2867,7 +2869,6 @@ packages:
     requiresBuild: true
     optionalDependencies:
       '@img/sharp-libvips-darwin-arm64': 1.0.1
-    dev: true
     optional: true
 
   /@img/sharp-darwin-x64@0.33.2:
@@ -2888,7 +2889,6 @@ packages:
     requiresBuild: true
     optionalDependencies:
       '@img/sharp-libvips-darwin-x64': 1.0.1
-    dev: true
     optional: true
 
   /@img/sharp-libvips-darwin-arm64@1.0.1:
@@ -2900,7 +2900,6 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@img/sharp-libvips-darwin-x64@1.0.1:
@@ -2912,7 +2911,6 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@img/sharp-libvips-linux-arm64@1.0.1:
@@ -2924,7 +2922,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@img/sharp-libvips-linux-arm@1.0.1:
@@ -2936,7 +2933,6 @@ packages:
     cpu: [arm]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@img/sharp-libvips-linux-s390x@1.0.1:
@@ -2948,7 +2944,6 @@ packages:
     cpu: [s390x]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@img/sharp-libvips-linux-x64@1.0.1:
@@ -2960,7 +2955,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@img/sharp-libvips-linuxmusl-arm64@1.0.1:
@@ -2972,7 +2966,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@img/sharp-libvips-linuxmusl-x64@1.0.1:
@@ -2984,7 +2977,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@img/sharp-linux-arm64@0.33.2:
@@ -3005,7 +2997,6 @@ packages:
     requiresBuild: true
     optionalDependencies:
       '@img/sharp-libvips-linux-arm64': 1.0.1
-    dev: true
     optional: true
 
   /@img/sharp-linux-arm@0.33.2:
@@ -3026,7 +3017,6 @@ packages:
     requiresBuild: true
     optionalDependencies:
       '@img/sharp-libvips-linux-arm': 1.0.1
-    dev: true
     optional: true
 
   /@img/sharp-linux-s390x@0.33.2:
@@ -3047,7 +3037,6 @@ packages:
     requiresBuild: true
     optionalDependencies:
       '@img/sharp-libvips-linux-s390x': 1.0.1
-    dev: true
     optional: true
 
   /@img/sharp-linux-x64@0.33.2:
@@ -3068,7 +3057,6 @@ packages:
     requiresBuild: true
     optionalDependencies:
       '@img/sharp-libvips-linux-x64': 1.0.1
-    dev: true
     optional: true
 
   /@img/sharp-linuxmusl-arm64@0.33.2:
@@ -3089,7 +3077,6 @@ packages:
     requiresBuild: true
     optionalDependencies:
       '@img/sharp-libvips-linuxmusl-arm64': 1.0.1
-    dev: true
     optional: true
 
   /@img/sharp-linuxmusl-x64@0.33.2:
@@ -3110,7 +3097,6 @@ packages:
     requiresBuild: true
     optionalDependencies:
       '@img/sharp-libvips-linuxmusl-x64': 1.0.1
-    dev: true
     optional: true
 
   /@img/sharp-wasm32@0.33.2:
@@ -3124,7 +3110,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@emnapi/runtime': 0.45.0
-    dev: true
     optional: true
 
   /@img/sharp-win32-ia32@0.33.2:
@@ -3137,7 +3122,6 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@img/sharp-win32-x64@0.33.2:
@@ -3150,7 +3134,6 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@jridgewell/gen-mapping@0.1.1:
@@ -3275,7 +3258,7 @@ packages:
     dependencies:
       asn1js: 3.0.5
       pvtsutils: 1.3.2
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: true
 
   /@peculiar/json-schema@1.1.12:
@@ -3285,7 +3268,7 @@ packages:
       }
     engines: { node: '>=8.0.0' }
     dependencies:
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: true
 
   /@peculiar/webcrypto@1.4.1:
@@ -4149,7 +4132,7 @@ packages:
     dependencies:
       pvtsutils: 1.3.2
       pvutils: 1.1.3
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: true
 
   /astral-regex@2.0.0:
@@ -4487,7 +4470,7 @@ packages:
       }
     dependencies:
       debug: 4.3.4
-      tslib: 2.5.0
+      tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4746,7 +4729,6 @@ packages:
     dependencies:
       color-name: 1.1.4
       simple-swizzle: 0.2.2
-    dev: true
 
   /color@4.2.3:
     resolution:
@@ -4757,7 +4739,6 @@ packages:
     dependencies:
       color-convert: 2.0.1
       color-string: 1.9.1
-    dev: true
 
   /colorette@2.0.19:
     resolution:
@@ -5087,7 +5068,6 @@ packages:
         integrity: sha512-UX6sGumvvqSaXgdKGUsgZWqcUyIXZ/vZTrlRT/iobiKhGL0zL4d3osHj3uqllWJK+i+sixDS/3COVEOFbupFyw==,
       }
     engines: { node: '>=8' }
-    dev: true
 
   /didyoumean@1.2.2:
     resolution:
@@ -6539,7 +6519,6 @@ packages:
       {
         integrity: sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==,
       }
-    dev: true
 
   /is-bigint@1.0.4:
     resolution:
@@ -8502,7 +8481,7 @@ packages:
         integrity: sha512-+Ipe2iNUyrZz+8K/2IOo+kKikdtfhRKzNpQbruF2URmqPtoqAs8g3xS7TJvFF2GcPXjh7DkqMnpVveRFq4PgEQ==,
       }
     dependencies:
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: true
 
   /pvutils@1.1.3:
@@ -8886,13 +8865,6 @@ packages:
       node-forge: 1.3.1
     dev: true
 
-  /semver@6.3.0:
-    resolution:
-      {
-        integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==,
-      }
-    hasBin: true
-
   /semver@6.3.1:
     resolution:
       {
@@ -8963,7 +8935,6 @@ packages:
       '@img/sharp-wasm32': 0.33.2
       '@img/sharp-win32-ia32': 0.33.2
       '@img/sharp-win32-x64': 0.33.2
-    dev: true
 
   /shebang-command@2.0.0:
     resolution:
@@ -9021,7 +8992,6 @@ packages:
       }
     dependencies:
       is-arrayish: 0.3.2
-    dev: true
 
   /slash@3.0.0:
     resolution:
@@ -9977,7 +9947,7 @@ packages:
       '@peculiar/json-schema': 1.1.12
       asn1js: 3.0.5
       pvtsutils: 1.3.2
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: true
 
   /webidl-conversions@3.0.1:
