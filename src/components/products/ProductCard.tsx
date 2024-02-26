@@ -4,7 +4,7 @@ import { Image } from 'qwik-image';
 import Price from './Price';
 
 export default component$(
-	({ productAsset, productName, slug, priceWithTax, currencyCode, stock }: any) => {
+	({ productAsset, productName, slug, priceWithTax, currencyCode }: any) => {
 		return (
 			<Link class="flex flex-col mx-auto" href={`/products/${slug}/`}>
 				<Image
@@ -22,7 +22,9 @@ export default component$(
 					currencyCode={currencyCode}
 					forcedClass="text-sm font-medium text-gray-900"
 				/>
-				<div class="text-sm text-gray-700">{stock}</div>
+				{/* <div class="mt-2 flex items-center space-x-2">
+					<StockLevelLabel stockLevel={inStock === true ? 'IN_STOCK' : 'OUT_OF_STOCK'} />
+				</div> */}
 			</Link>
 		);
 	}

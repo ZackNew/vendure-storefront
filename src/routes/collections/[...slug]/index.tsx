@@ -145,7 +145,6 @@ export default component$(() => {
 								slug={item.slug}
 								priceWithTax={item.priceWithTax}
 								currencyCode={item.currencyCode}
-								stock={item.inStock}
 							></ProductCard>
 						))}
 					</div>
