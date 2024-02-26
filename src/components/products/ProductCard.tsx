@@ -22,6 +22,9 @@ export default component$(
 					currencyCode={currencyCode}
 					forcedClass="text-sm font-medium text-gray-900"
 				/>
+				{/* <div class="mt-2 flex items-center space-x-2">
+					<StockLevelLabel stockLevel={inStock === true ? 'IN_STOCK' : 'OUT_OF_STOCK'} />
+				</div> */}
 			</Link>
 		);
 	}

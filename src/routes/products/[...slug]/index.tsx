@@ -1,6 +1,15 @@
-import { $, component$, useComputed$, useContext, useSignal, useTask$ } from '@builder.io/qwik';
-import { DocumentHead, routeLoader$ } from '@builder.io/qwik-city';
+import {
+	$,
+	component$,
+	useComputed$,
+	useContext,
+	useSignal,
+	useTask$,
+	useVisibleTask$,
+} from '@builder.io/qwik';
+import { DocumentHead, routeLoader$, useNavigate } from '@builder.io/qwik-city';
 import { Image } from 'qwik-image';
+import 'react-toastify/dist/ReactToastify.css';
 import Alert from '~/components/alert/Alert';
 import Breadcrumbs from '~/components/breadcrumbs/Breadcrumbs';
 import CheckIcon from '~/components/icons/CheckIcon';
@@ -8,8 +17,9 @@ import HeartIcon from '~/components/icons/HeartIcon';
 import Price from '~/components/products/Price';
 import StockLevelLabel from '~/components/stock-level-label/StockLevelLabel';
 import TopReviews from '~/components/top-reviews/TopReviews';
-import { APP_STATE } from '~/constants';
+import { APP_STATE, CUSTOMER_NOT_DEFINED_ID } from '~/constants';
 import { Order, OrderLine, Product } from '~/generated/graphql';
+import { getActiveCustomerQuery } from '~/providers/shop/customer/customer';
 import { addItemToOrderMutation } from '~/providers/shop/orders/order';
 import { getProductBySlug } from '~/providers/shop/products/products';
 import { Variant } from '~/types';
@@ -30,7 +40,7 @@ export const useProductLoader = routeLoader$(async ({ params }) => {
 
 export default component$(() => {
 	const appState = useContext(APP_STATE);
-
+	const navigate = useNavigate();
 	const calculateQuantities = $((product: Product) => {
 		const result: Record<string, number> = {};
 		(product.variants || []).forEach((variant: Variant) => {
@@ -42,7 +52,7 @@ export default component$(() => {
 		});
 		return result;
 	});
-
+	const error = useSignal('');
 	const productSignal = useProductLoader();
 	const currentImageSig = useSignal(productSignal.value.assets[0]);
 	const selectedVariantIdSignal = useSignal(productSignal.value.variants[0].id);
@@ -57,6 +67,21 @@ export default component$(() => {
 		quantitySignal.value = await calculateQuantities(productSignal.value);
 	});
 
+	useVisibleTask$(async () => {
+		if (appState.customer.id === CUSTOMER_NOT_DEFINED_ID) {
+			const activeCustomer = await getActiveCustomerQuery();
+			if (activeCustomer) {
+				appState.customer = {
+					title: activeCustomer.title ?? '',
+					firstName: activeCustomer.firstName,
+					id: activeCustomer.id,
+					lastName: activeCustomer.lastName,
+					emailAddress: activeCustomer.emailAddress,
+					phoneNumber: activeCustomer.phoneNumber ?? '',
+				};
+			}
+		}
+	});
 	return (
 		<div>
 			<div class="max-w-6xl mx-auto px-4 py-10">
@@ -154,16 +179,23 @@ export default component$(() => {
 												quantitySignal.value[selectedVariantIdSignal.value] > 7,
 										}}
 										onClick$={async () => {
-											if (quantitySignal.value[selectedVariantIdSignal.value] <= 7) {
-												const addItemToOrder = await addItemToOrderMutation(
-													selectedVariantIdSignal.value,
-													1
-												);
-												if (addItemToOrder.__typename !== 'Order') {
-													addItemToOrderErrorSignal.value = addItemToOrder.errorCode;
-												} else {
-													appState.activeOrder = addItemToOrder as Order;
+											if (appState.customer.id !== CUSTOMER_NOT_DEFINED_ID) {
+												if (quantitySignal.value[selectedVariantIdSignal.value] <= 7) {
+													const addItemToOrder = await addItemToOrderMutation(
+														selectedVariantIdSignal.value,
+														1
+													);
+													if (addItemToOrder.__typename !== 'Order') {
+														addItemToOrderErrorSignal.value = addItemToOrder.errorCode;
+													} else {
+														appState.activeOrder = addItemToOrder as Order;
+													}
 												}
+											} else {
+												<div class="mt-4">
+													<Alert message="Please login first to make an order" />
+												</div>;
+												navigate('/sign-in');
 											}
 										}}
 									>
