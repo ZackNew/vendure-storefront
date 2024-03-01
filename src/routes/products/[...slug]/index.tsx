@@ -23,7 +23,7 @@ import { getActiveCustomerQuery } from '~/providers/shop/customer/customer';
 import { addItemToOrderMutation } from '~/providers/shop/orders/order';
 import { getProductBySlug } from '~/providers/shop/products/products';
 import { Variant } from '~/types';
-import { cleanUpParams, generateDocumentHead, isEnvVariableEnabled } from '~/utils';
+import { cleanUpParams, formatPrice, generateDocumentHead, isEnvVariableEnabled } from '~/utils';
 
 export const useProductLoader = routeLoader$(async ({ params }) => {
 	const { slug } = cleanUpParams(params);
@@ -154,7 +154,10 @@ export default component$(() => {
 												value={variant.id}
 												selected={selectedVariantIdSignal.value === variant.id}
 											>
-												{variant.name}
+												{variant.name +
+													' ' +
+													' ' +
+													formatPrice(variant.priceWithTax, variant.currencyCode)}
 											</option>
 										))}
 									</select>
