@@ -23,7 +23,7 @@ import { getActiveCustomerQuery } from '~/providers/shop/customer/customer';
 import { addItemToOrderMutation } from '~/providers/shop/orders/order';
 import { getProductBySlug } from '~/providers/shop/products/products';
 import { Variant } from '~/types';
-import { cleanUpParams, generateDocumentHead, isEnvVariableEnabled } from '~/utils';
+import { cleanUpParams, formatPrice, generateDocumentHead, isEnvVariableEnabled } from '~/utils';
 
 export const useProductLoader = routeLoader$(async ({ params }) => {
 	const { slug } = cleanUpParams(params);
@@ -59,6 +59,7 @@ export default component$(() => {
 	const selectedVariantSignal = useComputed$(() =>
 		productSignal.value.variants.find((v) => v.id === selectedVariantIdSignal.value)
 	);
+	const variantstock = parseInt(selectedVariantSignal.value!!.stockLevel);
 	const addItemToOrderErrorSignal = useSignal('');
 	const quantitySignal = useSignal<Record<string, number>>({});
 
@@ -153,7 +154,10 @@ export default component$(() => {
 												value={variant.id}
 												selected={selectedVariantIdSignal.value === variant.id}
 											>
-												{variant.name}
+												{variant.name +
+													' ' +
+													' ' +
+													formatPrice(variant.priceWithTax, variant.currencyCode)}
 											</option>
 										))}
 									</select>
@@ -218,8 +222,10 @@ export default component$(() => {
 								</div>
 							</div>
 							<div class="mt-2 flex items-center space-x-2">
-								<span class="text-gray-500">{selectedVariantSignal.value?.sku}</span>
-								<StockLevelLabel stockLevel={selectedVariantSignal.value?.stockLevel} />
+								<span class="text-gray-500">sku: {selectedVariantSignal.value?.sku}</span>
+								{variantstock > 0 && <StockLevelLabel stockLevel={'IN_STOCK'} />}
+								{variantstock <= 0 && <StockLevelLabel stockLevel={'OUT_OF_STOCK'} />}
+								<span class="text-gray-500">{selectedVariantSignal.value?.stockLevel} items</span>
 							</div>
 							{!!addItemToOrderErrorSignal.value && (
 								<div class="mt-4">
