@@ -9,7 +9,6 @@ import {
 } from '@builder.io/qwik';
 import { DocumentHead, routeLoader$, useNavigate } from '@builder.io/qwik-city';
 import { Image } from 'qwik-image';
-import 'react-toastify/dist/ReactToastify.css';
 import Alert from '~/components/alert/Alert';
 import Breadcrumbs from '~/components/breadcrumbs/Breadcrumbs';
 import CheckIcon from '~/components/icons/CheckIcon';
@@ -52,7 +51,6 @@ export default component$(() => {
 		});
 		return result;
 	});
-	const error = useSignal('');
 	const productSignal = useProductLoader();
 	const currentImageSig = useSignal(productSignal.value.assets[0]);
 	const selectedVariantIdSignal = useSignal(productSignal.value.variants[0].id);

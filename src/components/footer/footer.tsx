@@ -8,20 +8,20 @@ export default component$(() => {
 		(item) => item.parent?.name === '__root_collection__' && !!item.featuredAsset
 	);
 
-	const navigation = {
-		support: [
-			{ name: $localize`Help`, href: '#' },
-			{ name: $localize`Track order`, href: '#' },
-			{ name: $localize`Shipping`, href: '#' },
-			{ name: $localize`Returns`, href: '#' },
-		],
-		company: [
-			{ name: $localize`About`, href: '#' },
-			{ name: $localize`Blog`, href: '#' },
-			{ name: $localize`Corporate responsibility`, href: '#' },
-			{ name: $localize`Press`, href: '#' },
-		],
-	};
+	// const navigation = {
+	// 	support: [
+	// 		{ name: $localize`Help`, href: '#' },
+	// 		{ name: $localize`Track order`, href: '#' },
+	// 		{ name: $localize`Shipping`, href: '#' },
+	// 		{ name: $localize`Returns`, href: '#' },
+	// 	],
+	// 	company: [
+	// 		{ name: $localize`About`, href: '#' },
+	// 		{ name: $localize`Blog`, href: '#' },
+	// 		{ name: $localize`Corporate responsibility`, href: '#' },
+	// 		{ name: $localize`Press`, href: '#' },
+	// 	],
+	// };
 
 	return (
 		<footer class="pt-6 border-t bg-gray-50">
@@ -45,7 +45,7 @@ export default component$(() => {
 									))}
 								</ul>
 							</div>
-							<div class="mt-12 md:mt-0">
+							{/* <div class="mt-12 md:mt-0">
 								<h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">
 									{$localize`Support`}
 								</h3>
@@ -58,10 +58,10 @@ export default component$(() => {
 										</li>
 									))}
 								</ul>
-							</div>
+							</div> */}
 						</div>
 						<div class="md:grid md:grid-cols-2 md:gap-8">
-							<div>
+							{/* <div>
 								<h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">
 									{$localize`Company`}
 								</h3>
@@ -74,10 +74,10 @@ export default component$(() => {
 										</li>
 									))}
 								</ul>
-							</div>
+							</div> */}
 						</div>
 					</div>
-					<div class="mt-8 xl:mt-0">
+					{/* <div class="mt-8 xl:mt-0">
 						<h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">
 							{$localize`Subscribe to our newsletter`}
 						</h3>
@@ -102,7 +102,7 @@ export default component$(() => {
 								</button>
 							</div>
 						</div>
-					</div>
+					</div> */}
 				</div>
 				{/* <div class="mt-8 border-t pt-8">
 					<a

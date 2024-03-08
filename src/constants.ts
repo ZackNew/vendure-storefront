@@ -6,7 +6,8 @@ export const AUTH_TOKEN = 'authToken';
 export const CUSTOMER_NOT_DEFINED_ID = 'CUSTOMER_NOT_DEFINED_ID';
 export const HEADER_AUTH_TOKEN_KEY = 'vendure-auth-token';
 export const IMAGE_RESOLUTIONS = [1000, 800, 600, 400];
-export const HOMEPAGE_IMAGE = '/homepage.webp';
+export const HOMEPAGE_IMAGE =
+	'https://4.bp.blogspot.com/-MXM5jA4Ef-w/UM1tJoS7NII/AAAAAAAABtk/o58ytdIjozc/s1600/892-apple-logo-1920x1080-computer-wallpaper.jpg';
 export const DEFAULT_METADATA_URL = 'https://qwik-storefront.vendure.io/';
 export const DEFAULT_METADATA_TITLE = 'Vendure Qwik Storefront';
 export const DEFAULT_METADATA_DESCRIPTION =

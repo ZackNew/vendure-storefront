@@ -75,7 +75,15 @@ export default component$<{
 											<label html-for={`quantity-${line.id}`} class="mr-2">
 												{$localize`Quantity`}
 											</label>
-											<select
+
+											{/* <p> 
+												In stock: {line. }
+											</p> */}
+
+											<input
+												type="number"
+												min="1"
+												max="8"
 												disabled={!isInEditableUrl}
 												id={`quantity-${line.id}`}
 												name={`quantity-${line.id}`}
@@ -84,16 +92,8 @@ export default component$<{
 													currentOrderLineSignal.value = { id: line.id, value: +el.value };
 												}}
 												class="max-w-full rounded-md border border-gray-300 py-1.5 text-base leading-5 font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-											>
-												<option value={1}>1</option>
-												<option value={2}>2</option>
-												<option value={3}>3</option>
-												<option value={4}>4</option>
-												<option value={5}>5</option>
-												<option value={6}>6</option>
-												<option value={7}>7</option>
-												<option value={8}>8</option>
-											</select>
+												style="width:80px;"
+											/>
 										</form>
 									) : (
 										<div class="text-gray-800">
