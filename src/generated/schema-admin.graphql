@@ -70,7 +70,7 @@ enum AdjustmentType {
 
 type Administrator implements Node {
 	createdAt: DateTime!
-	customFields: JSON
+	customFields: AdministratorCustomFields
 	emailAddress: String!
 	firstName: String!
 	id: ID!
@@ -79,12 +79,17 @@ type Administrator implements Node {
 	user: User!
 }
 
+type AdministratorCustomFields {
+	phonenumber: String
+}
+
 input AdministratorFilterParameter {
 	createdAt: DateOperators
 	emailAddress: StringOperators
 	firstName: StringOperators
 	id: IDOperators
 	lastName: StringOperators
+	phonenumber: StringOperators
 	updatedAt: DateOperators
 }
 
@@ -136,6 +141,7 @@ input AdministratorSortParameter {
 	firstName: SortOrder
 	id: SortOrder
 	lastName: SortOrder
+	phonenumber: SortOrder
 	updatedAt: SortOrder
 }
 
@@ -761,8 +767,12 @@ input CreateAddressInput {
 	streetLine2: String
 }
 
+input CreateAdministratorCustomFieldsInput {
+	phonenumber: String
+}
+
 input CreateAdministratorInput {
-	customFields: JSON
+	customFields: CreateAdministratorCustomFieldsInput
 	emailAddress: String!
 	firstName: String!
 	lastName: String!
@@ -7006,7 +7016,7 @@ union TransitionOrderToStateResult = Order | OrderStateTransitionError
 union TransitionPaymentToStateResult = Payment | PaymentStateTransitionError
 
 input UpdateActiveAdministratorInput {
-	customFields: JSON
+	customFields: UpdateAdministratorCustomFieldsInput
 	emailAddress: String
 	firstName: String
 	lastName: String
@@ -7029,8 +7039,12 @@ input UpdateAddressInput {
 	streetLine2: String
 }
 
+input UpdateAdministratorCustomFieldsInput {
+	phonenumber: String
+}
+
 input UpdateAdministratorInput {
-	customFields: JSON
+	customFields: UpdateAdministratorCustomFieldsInput
 	emailAddress: String
 	firstName: String
 	id: ID!

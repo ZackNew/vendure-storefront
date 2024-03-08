@@ -11,6 +11,25 @@ export default component$(() => {
 	const appState = useContext(APP_STATE);
 	const isInEditableUrl = !isCheckoutPage(location.url.toString());
 
+	const now = new Date();
+	const localHours = now.getHours();
+	const localMinutes = now.getMinutes();
+
+	// Adjust time range based on Dubai's local time
+	const startTimeLocal = 9; // 11:00 AM
+	const endTimeLocal = 11; // 4:00 PM
+
+	// Convert local time to UTC time
+	const utcHours = localHours - now.getTimezoneOffset() / 60;
+	const min = utcHours * 60 + localMinutes;
+
+	let isVisible;
+	if (min > startTimeLocal * 60 && min < endTimeLocal * 60) {
+		isVisible = true; // Disable button
+	} else {
+		isVisible = false; // Enable button
+	}
+
 	return (
 		<div>
 			{appState.showCart && (
@@ -44,7 +63,7 @@ export default component$(() => {
 											)}
 										</div>
 									</div>
-									{appState.activeOrder?.totalQuantity && isInEditableUrl && (
+									{appState.activeOrder?.totalQuantity && isInEditableUrl && isVisible && (
 										<div class="border-t border-gray-200 py-6 px-4 sm:px-6">
 											<div class="flex justify-between text-base font-medium text-gray-900">
 												<p>{$localize`Subtotal`}</p>

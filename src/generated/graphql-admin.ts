@@ -104,7 +104,7 @@ export type AdjustmentType = (typeof AdjustmentType)[keyof typeof AdjustmentType
 export type Administrator = Node & {
 	__typename?: 'Administrator';
 	createdAt: Scalars['DateTime']['output'];
-	customFields?: Maybe<Scalars['JSON']['output']>;
+	customFields?: Maybe<AdministratorCustomFields>;
 	emailAddress: Scalars['String']['output'];
 	firstName: Scalars['String']['output'];
 	id: Scalars['ID']['output'];
@@ -113,12 +113,18 @@ export type Administrator = Node & {
 	user: User;
 };
 
+export type AdministratorCustomFields = {
+	__typename?: 'AdministratorCustomFields';
+	phonenumber?: Maybe<Scalars['String']['output']>;
+};
+
 export type AdministratorFilterParameter = {
 	createdAt?: InputMaybe<DateOperators>;
 	emailAddress?: InputMaybe<StringOperators>;
 	firstName?: InputMaybe<StringOperators>;
 	id?: InputMaybe<IdOperators>;
 	lastName?: InputMaybe<StringOperators>;
+	phonenumber?: InputMaybe<StringOperators>;
 	updatedAt?: InputMaybe<DateOperators>;
 };
 
@@ -157,6 +163,7 @@ export type AdministratorSortParameter = {
 	firstName?: InputMaybe<SortOrder>;
 	id?: InputMaybe<SortOrder>;
 	lastName?: InputMaybe<SortOrder>;
+	phonenumber?: InputMaybe<SortOrder>;
 	updatedAt?: InputMaybe<SortOrder>;
 };
 
@@ -729,8 +736,12 @@ export type CreateAddressInput = {
 	streetLine2?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type CreateAdministratorCustomFieldsInput = {
+	phonenumber?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type CreateAdministratorInput = {
-	customFields?: InputMaybe<Scalars['JSON']['input']>;
+	customFields?: InputMaybe<CreateAdministratorCustomFieldsInput>;
 	emailAddress: Scalars['String']['input'];
 	firstName: Scalars['String']['input'];
 	lastName: Scalars['String']['input'];
@@ -5961,7 +5972,7 @@ export type TransitionOrderToStateResult = Order | OrderStateTransitionError;
 export type TransitionPaymentToStateResult = Payment | PaymentStateTransitionError;
 
 export type UpdateActiveAdministratorInput = {
-	customFields?: InputMaybe<Scalars['JSON']['input']>;
+	customFields?: InputMaybe<UpdateAdministratorCustomFieldsInput>;
 	emailAddress?: InputMaybe<Scalars['String']['input']>;
 	firstName?: InputMaybe<Scalars['String']['input']>;
 	lastName?: InputMaybe<Scalars['String']['input']>;
@@ -5984,8 +5995,12 @@ export type UpdateAddressInput = {
 	streetLine2?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type UpdateAdministratorCustomFieldsInput = {
+	phonenumber?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type UpdateAdministratorInput = {
-	customFields?: InputMaybe<Scalars['JSON']['input']>;
+	customFields?: InputMaybe<UpdateAdministratorCustomFieldsInput>;
 	emailAddress?: InputMaybe<Scalars['String']['input']>;
 	firstName?: InputMaybe<Scalars['String']['input']>;
 	id: Scalars['ID']['input'];
